@@ -11,9 +11,6 @@ export default function Home() {
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
             MCP Client Chatbot
           </h1>
-          <p className="text-gray-600 dark:text-gray-300 mt-1">
-            Connect to an MCP server and start chatting with an LLM
-          </p>
         </div>
       </header>
 
@@ -35,22 +32,6 @@ export default function Home() {
           </div>
         </div>
       </main>
-
-      <footer className="bg-white dark:bg-gray-800 shadow-inner">
-        <div className="container mx-auto px-4 py-3 text-center text-gray-600 dark:text-gray-400 text-sm">
-          <p>
-            Powered by the Model Context Protocol -{" "}
-            <a
-              href="https://modelcontextprotocol.io/"
-              className="text-blue-500 hover:underline"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learn more
-            </a>
-          </p>
-        </div>
-      </footer>
     </div>
   );
 }

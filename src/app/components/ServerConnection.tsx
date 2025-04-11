@@ -190,24 +190,6 @@ export default function ServerConnection() {
           </button>
         </div>
       )}
-
-      <div className="mt-4">
-        <h3 className="font-medium text-gray-700 dark:text-gray-300 mb-2">
-          Troubleshooting Tips:
-        </h3>
-        <ul className="list-disc list-inside text-sm text-gray-600 dark:text-gray-400 space-y-1">
-          <li>
-            Always use forward slashes (/) in Windows paths, not backslashes
-          </li>
-          <li>
-            Always include the 'node' or 'python' command before the script path
-          </li>
-          <li>The first response might take up to 30 seconds</li>
-          <li>Make sure the script is properly implementing MCP protocol</li>
-          <li>Type 'quit' in the chat to disconnect</li>
-          <li>Make sure your ANTHROPIC_API_KEY environment variable is set</li>
-        </ul>
-      </div>
     </div>
   );
 }

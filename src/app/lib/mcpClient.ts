@@ -67,6 +67,7 @@ export class MCPClient {
 
       return data.message;
     } catch (error) {
+      alert("Why");
       console.error("Error processing query:", error);
       throw error;
     }

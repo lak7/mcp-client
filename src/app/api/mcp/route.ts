@@ -9,10 +9,9 @@ import { spawn, ChildProcess } from "child_process";
 // Load environment variables
 dotenv.config();
 
-const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
-if (!ANTHROPIC_API_KEY) {
-  console.error("ANTHROPIC_API_KEY is not set");
-}
+// Hardcode the API key for testing - replace with your actual key
+const ANTHROPIC_API_KEY =
+  "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";
 
 // Maintain client state
 let mcpClient: Client | null = null;
@@ -54,9 +53,9 @@ export async function POST(request: NextRequest) {
       cleanup();
 
       try {
-        // Initialize Anthropic client
+        // Initialize Anthropic client with explicit auth configuration
         anthropicClient = new Anthropic({
-          apiKey: ANTHROPIC_API_KEY || "",
+          apiKey: ANTHROPIC_API_KEY,
         });
 
         // Parse the server path
@@ -136,14 +135,17 @@ export async function POST(request: NextRequest) {
 
         // Now initialize the MCP client and connect to the server
         try {
-          // Initialize the MCP client
+          // Initialize the MCP client with explicit auth configuration
           mcpClient = new Client({
             name: "mcp-client-web",
             version: "1.0.0",
-            apiKey: process.env.ANTHROPIC_API_KEY ?? "",
           });
 
-          // Create the transport
+          console.log("Connecting to MCP server...");
+          console.log("Command:", command);
+          console.log("Script Path:", scriptPath);
+
+          // Create the transport with explicit auth environment
           const transport = new StdioClientTransport({
             command,
             args: [scriptPath],
