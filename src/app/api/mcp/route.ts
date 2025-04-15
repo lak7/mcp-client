@@ -66,8 +66,16 @@ export async function POST(request: NextRequest) {
         const parts = parsedPath.split(" ");
         let command = "";
         let scriptPath = "";
+        let args: string[] = [];
 
-        if (
+        // Check if this is an npx registry command (e.g., "npx -y @modelcontextprotocol/server-everything")
+        if (parts.length > 0 && parts[0] === "npx") {
+          command = "npx";
+          args = parts.slice(1);
+          scriptPath = ""; // No script path needed for npx registry commands
+        }
+        // Check if path starts with node or python
+        else if (
           parts.length > 1 &&
           (parts[0] === "node" || parts[0] === "python")
         ) {
@@ -87,17 +95,22 @@ export async function POST(request: NextRequest) {
             return NextResponse.json(
               {
                 success: false,
-                message: "Server script must be a .js or .py file",
+                message:
+                  "Server script must be a .js or .py file or an npx registry command",
               },
               { status: 400 }
             );
           }
         }
 
-        console.log(`Launching command: ${command} with script: ${scriptPath}`);
+        console.log(
+          `Launching command: ${command} with ${
+            scriptPath ? `script: ${scriptPath}` : `args: ${args.join(" ")}`
+          }`
+        );
 
         // Start the MCP server as a separate process
-        serverProcess = spawn(command, [scriptPath], {
+        serverProcess = spawn(command, scriptPath ? [scriptPath] : args, {
           stdio: ["pipe", "pipe", "pipe"],
           cwd: process.cwd(),
           shell: true, // Using shell for Windows path support
@@ -143,12 +156,16 @@ export async function POST(request: NextRequest) {
 
           console.log("Connecting to MCP server...");
           console.log("Command:", command);
-          console.log("Script Path:", scriptPath);
+          if (scriptPath) {
+            console.log("Script Path:", scriptPath);
+          } else {
+            console.log("Args:", args.join(" "));
+          }
 
           // Create the transport with explicit auth environment
           const transport = new StdioClientTransport({
             command,
-            args: [scriptPath],
+            args: scriptPath ? [scriptPath] : args,
             env: {
               ANTHROPIC_API_KEY:
                 "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",
