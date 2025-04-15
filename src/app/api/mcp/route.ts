@@ -10,7 +10,8 @@ import { spawn, ChildProcess } from "child_process";
 dotenv.config();
 
 // Hardcode the API key for testing - replace with your actual key
-const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
+const ANTHROPIC_API_KEY =
+  "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";
 
 // Maintain client state
 let mcpClient: Client | null = null;
@@ -144,14 +145,10 @@ export async function POST(request: NextRequest) {
           console.log("Command:", command);
           console.log("Script Path:", scriptPath);
 
-          if (!ANTHROPIC_API_KEY) {
-            return;
-          }
-
           // Create the transport with explicit auth environment
           const transport = new StdioClientTransport({
-            command,
-            args: [scriptPath],
+            command: "npx",
+            args: ["-y @modelcontextprotocol/server-everything"],
             env: {
               ANTHROPIC_API_KEY: ANTHROPIC_API_KEY,
             },
