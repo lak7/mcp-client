@@ -150,7 +150,8 @@ export async function POST(request: NextRequest) {
             command: "npx",
             args: ["-y @modelcontextprotocol/server-everything"],
             env: {
-              ANTHROPIC_API_KEY: ANTHROPIC_API_KEY,
+              ANTHROPIC_API_KEY:
+                "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",
             },
           });
 
